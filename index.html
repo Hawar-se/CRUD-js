@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List with Pagination</title>
+    <link rel ="stylesheet" href="style.css">
+</head>
+<body>
+    <input type="text" id="search-input" placeholder="Search Products...">
+
+    <div class="product-container" id="product-container">
+        <!-- Products will be displayed here -->
+    </div>
+
+    <div class="pagination" id="pagination">
+        <button id="prev-btn" onclick="changePage('prev')">Previous</button>
+        <span id="page-number">1</span>
+        <button id="next-btn" onclick="changePage('next')">Next</button>
+    </div>
+
+    <script src="notes/script.js"></script>
+
+</body>
+</html>
