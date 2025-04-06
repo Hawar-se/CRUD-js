@@ -19,18 +19,27 @@ async function getProducts(page) {
 function displayProducts(products) {
     const container = document.getElementById('product-container');
     container.innerHTML = ''; // Clear previous products
-
+  
     products.forEach((product) => {
-        const productElement = document.createElement('div');
-        productElement.classList.add('product');
-        productElement.innerHTML = `
-            <h2>${product.title}</h2>
-            <p><strong>Price:</strong> $${product.price}</p>
-            <img src="${product.thumbnail}" alt="${product.title}">
-        `;
-        container.appendChild(productElement);
+      const productElement = document.createElement('div');
+      productElement.classList.add('product');
+      productElement.innerHTML = `
+        <h2>${product.title}</h2>
+        <p><strong>Price:</strong> $${product.price}</p>
+        <img src="${product.thumbnail}" alt="${product.title}">
+        <button class="delete-btn">Delete</button>
+      `;
+  
+      // ✅ Add delete functionality INSIDE the loop
+      const deleteButton = productElement.querySelector(".delete-btn");
+      deleteButton.addEventListener("click", () => {
+        productElement.remove(); // Just removes it from the UI
+      });
+  
+      container.appendChild(productElement);
     });
-}
+  }
+  
 
 function setupPagination(totalProducts) {
     const totalPages = Math.ceil(totalProducts / productsPerPage);
