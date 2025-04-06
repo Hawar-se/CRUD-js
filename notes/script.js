@@ -1,8 +1,9 @@
 let currentPage = 1;
-        const productsPerPage = 10;
-        let allProducts = [];  // Store all products
-        let filteredProducts = [];  // Store products after search filtering
+const productsPerPage = 10;
+let allProducts = [];  // Store all products
+let filteredProducts = [];  // Store products after search filtering
 
+// Fetch products from the API
 async function getProducts(page) {
     const response = await fetch(`https://dummyjson.com/products?limit=${productsPerPage}&skip=${(page - 1) * productsPerPage}`);
     if (!response.ok) {
@@ -16,6 +17,7 @@ async function getProducts(page) {
     setupPagination(data.total);
 }
 
+// Display products on the page
 function displayProducts(products) {
     const container = document.getElementById('product-container');
     container.innerHTML = ''; // Clear previous products
@@ -30,7 +32,7 @@ function displayProducts(products) {
         <button class="delete-btn">Delete</button>
       `;
   
-      // ✅ Add delete functionality INSIDE the loop
+      // Add delete functionality inside the loop
       const deleteButton = productElement.querySelector(".delete-btn");
       deleteButton.addEventListener("click", () => {
         productElement.remove(); // Just removes it from the UI
@@ -38,9 +40,9 @@ function displayProducts(products) {
   
       container.appendChild(productElement);
     });
-  }
-  
+}
 
+// Set up pagination controls
 function setupPagination(totalProducts) {
     const totalPages = Math.ceil(totalProducts / productsPerPage);
     document.getElementById('page-number').textContent = currentPage;
@@ -52,6 +54,7 @@ function setupPagination(totalProducts) {
     nextBtn.disabled = currentPage === totalPages;
 }
 
+// Change the page when next/prev buttons are clicked
 function changePage(direction) {
     if (direction === 'next') {
         currentPage++;
@@ -61,10 +64,10 @@ function changePage(direction) {
     getProducts(currentPage);
 }
 
+// Add event listener to the search input
+document.getElementById('search-input').addEventListener('input', searchProducts);
 
-
-   // Search functionality
-   function searchProducts() {
+function searchProducts() {
     const searchTerm = document.getElementById('search-input').value.toLowerCase();
     filteredProducts = allProducts.filter((product) => product.title.toLowerCase().includes(searchTerm));
     currentPage = 1;  // Reset to the first page when performing a new search
@@ -73,5 +76,6 @@ function changePage(direction) {
     displayProducts(filteredProducts.slice(start, end));
     setupPagination(filteredProducts.length);
 }
+
 // Initialize the first page
 getProducts(currentPage);

@@ -1,87 +1,109 @@
-
+/* General Body and Layout Styling */
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
+/* Search input wrapper to center align the input */
+.search-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* Search input styling */
+#search-input {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+/* Focused search input border color */
+#search-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+/* Product container for displaying products */
 .product-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: center;
+    margin: 20px;
 }
 
+/* Styling for individual product elements */
 .product {
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 200px;
-  text-align: center;
-  background-color: #f8f8f8;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .product img {
-  width: 100%;
-  border-radius: 10px;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
 }
 
+.product h2 {
+    font-size: 18px;
+    color: #333;
+    margin: 10px 0;
+}
+
+.product p {
+    font-size: 16px;
+    color: #555;
+}
+
+.product button {
+    padding: 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.product button:hover {
+    background-color: darkred;
+}
+
+/* Pagination styling */
 .pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
 }
 
-.pagination button,
-.pagination span {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.pagination button:disabled {
-  background-color: #e0e0e0;
-  cursor: not-allowed;
+.pagination button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 10px;
 }
 
 .pagination button:hover {
-  background-color: #e8e8e8;
+    background-color: #0056b3;
 }
 
-.pagination span {
-  font-size: 18px;
-  font-weight: bold;
+#page-number {
+    font-size: 18px;
+    color: #333;
 }
-#search-bar {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-input #search-input{
-  padding: 10px;
-  font-size: 16px;
-  width: 300px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-
-.delete-btn {
-    background-color: #ff4d4d;
-    border: none;
-    padding: 6px 10px;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .delete-btn:hover {
-    background-color: #cc0000;
-  }
-  
-
