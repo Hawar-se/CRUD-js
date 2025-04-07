@@ -23,22 +23,96 @@ function displayProducts(products) {
     container.innerHTML = ''; // Clear previous products
   
     products.forEach((product) => {
-      const productElement = document.createElement('div');
-      productElement.classList.add('product');
-      productElement.innerHTML = `
-        <h2>${product.title}</h2>
-        <p><strong>Price:</strong> $${product.price}</p>
-        <img src="${product.thumbnail}" alt="${product.title}">
-        <button class="delete-btn">Delete</button>
-      `;
-  
-      // Add delete functionality inside the loop
-      const deleteButton = productElement.querySelector(".delete-btn");
-      deleteButton.addEventListener("click", () => {
-        productElement.remove(); // Just removes it from the UI
-      });
-  
-      container.appendChild(productElement);
+        const productElement = document.createElement('div');
+        productElement.classList.add('product');
+        productElement.innerHTML = `
+          <h2>${product.title}</h2>
+          <p><strong>Price:</strong> $${product.price}</p>
+          <img src="${product.thumbnail}" alt="${product.title}">
+          <button class="delete-btn">  <i class="fa fa-trash"></i> Delete</button>
+          <button class="edit-btn"><i class="fa fa-edit"></i> Edit</button>
+
+        `;
+      
+        // ✅ FIX: Select the buttons after rendering innerHTML
+        const deleteButton = productElement.querySelector(".delete-btn");
+        const editButton = productElement.querySelector(".edit-btn");
+
+        // Handle delete button click
+        deleteButton.addEventListener("click", () => {
+            fetch(`https://dummyjson.com/products/${product.id}`, {
+                method: 'DELETE'
+            })
+            .then((res) => {
+                if (!res.ok) {
+                    console.error("Failed to delete from backend");
+                    return;
+                }
+
+                filteredProducts = filteredProducts.filter(p => p.id !== product.id);
+                displayProducts(filteredProducts);
+                setupPagination(filteredProducts.length);
+            })
+            .catch((error) => {
+                console.error("Delete error:", error);
+            });
+        });
+
+        // Handle edit button click
+        editButton.addEventListener("click", () => {
+            // Toggle edit mode (add the 'editing' class)
+            productElement.classList.toggle('editing');
+            
+            const titleEl = productElement.querySelector("h2");
+            const priceEl = productElement.querySelector("p");
+          
+            // Create input fields
+            const titleInput = document.createElement("input");
+            titleInput.value = product.title;
+          
+            const priceInput = document.createElement("input");
+            priceInput.type = "number";
+            priceInput.value = product.price;
+          
+            // Replace elements with inputs
+            titleEl.replaceWith(titleInput);
+            priceEl.replaceWith(priceInput);
+          
+            // Change Edit button to Save
+            editButton.textContent = "Save";
+          
+            // Handle Save button click
+            editButton.onclick = () => {
+                const updatedTitle = titleInput.value;
+                const updatedPrice = parseFloat(priceInput.value);
+          
+                fetch(`https://dummyjson.com/products/${product.id}`, {
+                    method: "PATCH",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: updatedTitle,
+                        price: updatedPrice,
+                    }),
+                })
+                .then((res) => res.json())
+                .then((updatedProduct) => {
+                    // Update the UI
+                    titleInput.replaceWith(document.createElement("h2"));
+                    priceInput.replaceWith(document.createElement("p"));
+          
+                    product.title = updatedProduct.title;
+                    product.price = updatedProduct.price;
+          
+                    productElement.querySelector("h2").textContent = updatedProduct.title;
+                    productElement.querySelector("p").innerHTML = `<strong>Price:</strong> $${updatedProduct.price}`;
+                    
+                    editButton.textContent = "Edit"; // Back to Edit
+                    productElement.classList.remove('editing');  // Exit edit mode
+                });
+            };
+        });
+      
+        container.appendChild(productElement);
     });
 }
 
